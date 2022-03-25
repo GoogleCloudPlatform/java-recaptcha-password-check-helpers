@@ -14,6 +14,8 @@ package com.google.cloud.recaptcha.passwordcheck;
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+import static com.google.common.base.Strings.isNullOrEmpty;
+
 import com.google.cloud.recaptcha.passwordcheck.utils.SensitiveString;
 import java.util.Collection;
 import java.util.concurrent.CompletableFuture;
@@ -22,9 +24,10 @@ import java.util.concurrent.Executors;
 
 /**
  * This class that exposes functionality to: 1) build a new {@link PasswordLeakVerification} which
- * holds the parameters for performing a request to <a href="#">reCAPTCHA Enterprise Password Leak
- * Verification</a> and 2) parse the server response to determine if a username/password pair has
- * been leaked.
+ * holds the parameters for performing a request to <a
+ * href="https://cloud.google.com/recaptcha-enterprise/docs/check-passwords">reCAPTCHA Enterprise
+ * Password Leak Verification</a> and 2) parse the server response to determine if a
+ * username/password pair has been leaked.
  */
 public final class PasswordCheckVerifier {
 
@@ -65,6 +68,12 @@ public final class PasswordCheckVerifier {
    */
   public CompletableFuture<PasswordCheckVerification> createVerification(
       String username, String password) {
+    if (isNullOrEmpty(username)) {
+      throw new IllegalArgumentException("Username cannot be null or empty");
+    }
+    if (isNullOrEmpty(password)) {
+      throw new IllegalArgumentException("Password cannot be null or empty");
+    }
     return PasswordCheckVerification.create(username, SensitiveString.of(password), executorService)
         .toCompletableFuture();
   }

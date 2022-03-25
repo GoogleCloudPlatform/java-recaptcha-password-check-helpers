@@ -1,9 +1,10 @@
 # reCAPTCHA Password Check
 
-Java client library for reCAPTCHA's private password check API. It exposes
-functionality to make password leak check requests in a private manner (i.e
-credentials are sent encrypted and the server cannot—and doesn't need to—decrypt
-them).
+Java client library for reCAPTCHA's
+[private password check API](https://cloud.google.com/recaptcha-enterprise/docs/check-passwords).
+It exposes functionality to make password leak check requests in a private
+manner (i.e credentials are sent encrypted and the server cannot—and doesn't
+need to—decrypt them).
 
 ## Usage
 

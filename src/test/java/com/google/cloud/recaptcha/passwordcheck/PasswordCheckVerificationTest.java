@@ -16,6 +16,7 @@ package com.google.cloud.recaptcha.passwordcheck;
 
 import static com.google.common.truth.Truth.assertThat;
 import static java.util.Arrays.stream;
+import static org.junit.Assert.assertThrows;
 
 import com.google.common.hash.Hashing;
 import com.google.cloud.recaptcha.passwordcheck.utils.BCScryptGenerator;
@@ -23,6 +24,7 @@ import com.google.cloud.recaptcha.passwordcheck.utils.CryptoHelper;
 import com.google.cloud.recaptcha.passwordcheck.utils.ScryptGenerator;
 import com.google.cloud.recaptcha.passwordcheck.utils.SensitiveString;
 import com.google.privacy.encryption.commutative.EcCommutativeCipher;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
@@ -46,13 +48,6 @@ public class PasswordCheckVerificationTest {
   };
 
   @Test
-  public void createVerification_succeeds() throws ExecutionException, InterruptedException {
-    final PasswordCheckVerification verification = createVerification();
-    assertThat(verification.getEncryptedLookupHash().length).isGreaterThan(0);
-    assertThat(verification.getLookupHashPrefix().length).isGreaterThan(0);
-  }
-
-  @Test
   public void verify_returnsLeak() throws ExecutionException, InterruptedException {
     final PasswordCheckVerification verification = createVerification();
     final TestServerResponse response =
@@ -66,6 +61,32 @@ public class PasswordCheckVerificationTest {
     final TestServerResponse response =
         new TestServerResponse(verification, TEST_NOT_MATCHING_USERNAME_LIST);
     assertThat(response.checkCredentialsLeaked(verification)).isFalse();
+  }
+
+  @Test
+  public void verify_emptyEncryptedLeakMatchPrefix_returnsNoLeak()
+      throws ExecutionException, InterruptedException {
+    final PasswordCheckVerification verification = createVerification();
+    final TestServerResponse response = new TestServerResponse(verification, new Credentials[] {});
+    assertThat(response.checkCredentialsLeaked(verification)).isFalse();
+  }
+
+  @Test
+  public void verify_nullReEncryptedLookupHash_throwsException()
+      throws ExecutionException, InterruptedException {
+    final PasswordCheckVerification verification = createVerification();
+    assertThrows(
+        IllegalArgumentException.class,
+        () -> verification.verify(null, new ArrayList<>(), Executors.newCachedThreadPool()));
+  }
+
+  @Test
+  public void verify_nullEncryptedLeakMatchPrefixList_throwsException()
+      throws ExecutionException, InterruptedException {
+    final PasswordCheckVerification verification = createVerification();
+    assertThrows(
+        IllegalArgumentException.class,
+        () -> verification.verify(new byte[] {}, null, Executors.newCachedThreadPool()));
   }
 
   // --- Utility methods --- //

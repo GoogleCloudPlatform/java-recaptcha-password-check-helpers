@@ -27,9 +27,10 @@ import java.util.concurrent.ExecutorService;
 import java.util.function.Supplier;
 
 /**
- * Represents a single password check verification attempt. The underlying protocol ensures that the
- * credentials are always encrypted whenever leaving the user's device; the reCAPTCHA service will
- * not be able to decrypt them.
+ * Represents a single <a href="https://cloud.google.com/recaptcha-enterprise/docs/check-passwords">
+ * password check verification</a> attempt. The underlying protocol ensures that the credentials are
+ * always encrypted whenever leaving the user's device; the reCAPTCHA service will not be able to
+ * decrypt them.
  */
 public final class PasswordCheckVerification {
   /** BouncyCastle's SCrypt Implementation. */
@@ -111,6 +112,14 @@ public final class PasswordCheckVerification {
       final byte[] reEncryptedLookupHash,
       final Collection<byte[]> encryptedLeakMatchPrefixList,
       final ExecutorService executorService) {
+
+    if (reEncryptedLookupHash == null) {
+      throw new IllegalArgumentException("reEncryptedLookupHash cannot be null");
+    }
+
+    if (encryptedLeakMatchPrefixList == null) {
+      throw new IllegalArgumentException("encryptedLeakMatchPrefixList cannot be null");
+    }
 
     return CompletableFuture.supplyAsync(
         () -> {
