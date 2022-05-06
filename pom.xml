@@ -8,11 +8,49 @@
   <artifactId>recaptcha-password-check-helpers</artifactId>
   <version>1.0</version>
 
+  <name>reCAPTCHA Password Check Helpers</name>
+  <description>
+    Helper library to use reCAPTCHA's password leak checkup service.
+  </description>
+  <packaging>jar</packaging>
+  <url>https://github.com/GoogleCloudPlatform/java-recaptcha-password-check-helpers/tree/main</url>
+
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <maven.compiler.source>8</maven.compiler.source>
     <maven.compiler.target>8</maven.compiler.target>
   </properties>
+
+  <scm>
+    <url>http://github.com/GoogleCloudPlatform/java-recaptcha-password-check-helpers</url>
+    <connection>scm:git:git://github.com/GoogleCloudPlatform/java-recaptcha-password-check-helpers.git</connection>
+    <developerConnection>scm:git:ssh://git@github.com/GoogleCloudPlatform/java-recaptcha-password-check-helpers.git</developerConnection>
+    <tag>HEAD</tag>
+  </scm>
+
+  <issueManagement>
+    <system>GitHub Issues</system>
+    <url>http://github.com/GoogleCloudPlatform/java-recaptcha-password-check-helpers/issues</url>
+  </issueManagement>
+
+  <licenses>
+    <license>
+      <name>Apache 2.0</name>
+      <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+    </license>
+  </licenses>
+
+  <organization>
+    <name>Google LLC</name>
+    <url>http://www.google.com</url>
+  </organization>
+
+  <developers>
+    <developer>
+      <organization>Google</organization>
+      <organizationUrl>http://www.google.com</organizationUrl>
+    </developer>
+  </developers>
 
   <dependencies>
     <!-- https://mvnrepository.com/artifact/com.google.guava/guava -->
