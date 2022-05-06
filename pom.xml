@@ -6,7 +6,7 @@
 
   <groupId>com.google.cloud</groupId>
   <artifactId>recaptcha-password-check-helpers</artifactId>
-  <version>1.0</version>
+  <version>1.0.1-SNAPSHOT</version>
 
   <name>reCAPTCHA Password Check Helpers</name>
   <description>
