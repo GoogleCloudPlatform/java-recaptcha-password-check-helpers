@@ -115,7 +115,7 @@ public class PasswordCheckVerificationTest {
     TestServerResponse(PasswordCheckVerification verification, Credentials[] credentialsList) {
       this.serverCipher = EcCommutativeCipher.createWithNewKey(PasswordCheckVerification.EC_CURVE);
       this.serverReEncryptedLookupHash =
-          serverCipher.reEncrypt(verification.getEncryptedLookupHash());
+          serverCipher.reEncrypt(verification.getEncryptedUserCredentialsHash());
 
       this.encryptedLeakMatchPrefixTestList =
           stream(credentialsList)

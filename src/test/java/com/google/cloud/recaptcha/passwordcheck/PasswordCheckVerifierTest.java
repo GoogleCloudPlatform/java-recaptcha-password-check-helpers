@@ -29,7 +29,7 @@ public final class PasswordCheckVerifierTest {
     PasswordCheckVerifier verifier = new PasswordCheckVerifier();
     PasswordCheckVerification verification =
         verifier.createVerification("username", "password").get();
-    assertThat(verification.getEncryptedLookupHash().length).isGreaterThan(0);
+    assertThat(verification.getEncryptedUserCredentialsHash().length).isGreaterThan(0);
     assertThat(verification.getLookupHashPrefix().length).isGreaterThan(0);
   }
 
