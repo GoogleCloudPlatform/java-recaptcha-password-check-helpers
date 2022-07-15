@@ -150,7 +150,7 @@ public final class EcCommutativeCipher extends EcCommutativeCipherBase {
     while (true) {
       ECFieldElement fieldX = ecCurve.fromBigInteger(x);
       // y2 = x ^ 3 + a x + b
-      ECFieldElement y2 = fieldX.multiply(fieldX).multiply(fieldX).add(a.multiply(fieldX)).add(b);
+      ECFieldElement y2 = fieldX.multiply(fieldX.square().add(a)).add(b);
       ECFieldElement y2Sqrt = y2.sqrt();
       if (y2Sqrt != null) {
         if (y2Sqrt.toBigInteger().testBit(0)) {
