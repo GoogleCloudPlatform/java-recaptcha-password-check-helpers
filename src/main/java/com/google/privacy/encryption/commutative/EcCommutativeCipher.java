@@ -146,7 +146,7 @@ public final class EcCommutativeCipher extends EcCommutativeCipherBase {
     ECFieldElement a = ecCurve.getA();
     ECFieldElement b = ecCurve.getB();
     BigInteger p = ((Fp) ecCurve).getQ();
-    @Var BigInteger x = randomOracle(byteId, p);
+    @Var BigInteger x = randomOracle(byteId, p, hashType);
     while (true) {
       ECFieldElement fieldX = ecCurve.fromBigInteger(x);
       // y2 = x ^ 3 + a x + b
@@ -159,7 +159,7 @@ public final class EcCommutativeCipher extends EcCommutativeCipherBase {
         }
         return new java.security.spec.ECPoint(fieldX.toBigInteger(), y2Sqrt.toBigInteger());
       }
-      x = randomOracle(bigIntegerToByteArrayCppCompatible(x), p);
+      x = randomOracle(bigIntegerToByteArrayCppCompatible(x), p, hashType);
     }
   }
 

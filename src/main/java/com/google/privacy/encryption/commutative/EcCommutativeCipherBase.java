@@ -145,6 +145,8 @@ public abstract class EcCommutativeCipherBase {
   /**
    * A random oracle function mapping x deterministically into a large domain.
    *
+   * <p>
+   *
    * <p>The random oracle is similar to the example given in the last paragraph of Chapter 6 of [1]
    * where the output is expanded by successively hashing the concatenation of the input with a
    * fixed sized counter starting from 1.
@@ -164,7 +166,7 @@ public abstract class EcCommutativeCipherBase {
    * <p>The output length is increased by a security value of 256 which reduces the bias of
    * selecting certain values more often than others when max_value is not a multiple of 2.
    */
-  protected BigInteger randomOracle(byte[] bytes, BigInteger maxValue) {
+  public static BigInteger randomOracle(byte[] bytes, BigInteger maxValue, HashType hashType) {
     int hashBitLength = hashType.getHashBitLength();
     int outputBitLength = maxValue.bitLength() + hashBitLength;
     int iterCount = (outputBitLength + hashBitLength - 1) / hashBitLength;
@@ -213,7 +215,7 @@ public abstract class EcCommutativeCipherBase {
    * complement representation. This function is compatible with C++ OpenSSL's BigNum
    * implementation.
    */
-  protected static byte[] bigIntegerToByteArrayCppCompatible(BigInteger value) {
+  public static byte[] bigIntegerToByteArrayCppCompatible(BigInteger value) {
     byte[] signedArray = value.toByteArray();
     int leadingZeroes = 0;
     while (signedArray[leadingZeroes] == 0) {
@@ -229,7 +231,7 @@ public abstract class EcCommutativeCipherBase {
    * form. The function converts the bytes into two's complement big-endian form before converting
    * into a BigInteger. This function matches the C++ OpenSSL implementation of bytes to BigNum.
    */
-  protected static BigInteger byteArrayToBigIntegerCppCompatible(byte[] bytes) {
+  public static BigInteger byteArrayToBigIntegerCppCompatible(byte[] bytes) {
     byte[] twosComplement = new byte[bytes.length + 1];
     twosComplement[0] = 0;
     System.arraycopy(bytes, 0, twosComplement, 1, bytes.length);
