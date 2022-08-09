@@ -127,8 +127,8 @@ public final class PasswordCheckVerification {
       final Collection<byte[]> encryptedLeakMatchPrefixList,
       final ExecutorService executorService) {
 
-    if (reEncryptedUserCredentialsHash == null) {
-      throw new IllegalArgumentException("reEncryptedLookupHash cannot be null");
+    if (reEncryptedUserCredentialsHash == null || reEncryptedUserCredentialsHash.length == 0) {
+      throw new IllegalArgumentException("reEncryptedLookupHash must be present");
     }
 
     if (encryptedLeakMatchPrefixList == null) {

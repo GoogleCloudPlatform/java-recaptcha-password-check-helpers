@@ -81,6 +81,16 @@ public class PasswordCheckVerificationTest {
   }
 
   @Test
+  public void verify_emptyReEncryptedLookupHash_throwsException()
+      throws ExecutionException, InterruptedException {
+    final PasswordCheckVerification verification = createVerification();
+    assertThrows(
+        IllegalArgumentException.class,
+        () ->
+            verification.verify(new byte[] {}, new ArrayList<>(), Executors.newCachedThreadPool()));
+  }
+
+  @Test
   public void verify_nullEncryptedLeakMatchPrefixList_throwsException()
       throws ExecutionException, InterruptedException {
     final PasswordCheckVerification verification = createVerification();
