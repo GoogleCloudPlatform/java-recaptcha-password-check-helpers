@@ -167,9 +167,7 @@ public final class PasswordCheckVerification {
       String canonicalizedUsername = CryptoHelper.canonicalizeUsername(username);
 
       verification.encryptedUserCredentialsHash =
-          verification.cipher.encrypt(
-              CryptoHelper.hashUsernamePasswordPair(
-                  canonicalizedUsername, password, SCRYPT_GENERATOR));
+          verification.cipher.encrypt(password.getValue().getBytes(UTF_8));
       verification.lookupHashPrefix =
           CryptoHelper.bucketizeUsername(canonicalizedUsername, USERNAME_HASH_PREFIX_LENGTH);
 
