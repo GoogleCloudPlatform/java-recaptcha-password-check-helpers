@@ -35,7 +35,7 @@ need to—decrypt them).
     PasswordCheckResult result = passwordLeak.verify(verification, reEncryptedUserCredentialsHash, encryptedLeakMatchPrefixes);
     ```
 
-5.  Finally, use the result to determine wheter the user credentials are leaked
+5.  Finally, use the result to determine whether the user credentials are leaked
     or not:
 
     ```java
