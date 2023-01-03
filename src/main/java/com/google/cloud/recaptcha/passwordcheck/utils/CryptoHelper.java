@@ -21,15 +21,9 @@ import com.google.cloud.recaptcha.passwordcheck.utils.EmailAddress;
 import com.google.common.hash.Hashing;
 import com.google.common.math.IntMath;
 import com.google.common.primitives.Bytes;
-import com.google.i18n.identifiers.RegionCode;
-import com.google.i18n.phonenumbers.NumberParseException;
-import com.google.i18n.phonenumbers.PhoneNumberUtil;
-import com.google.i18n.phonenumbers.proto2api.Phonenumber.PhoneNumber;
 import com.google.cloud.recaptcha.passwordcheck.utils.MessageStrippingException;
 import com.google.cloud.recaptcha.passwordcheck.utils.SensitiveString;
 import com.google.privacy.encryption.commutative.EcCommutativeCipher;
-import java.util.EnumSet;
-import javax.annotation.Nullable;
 
 /**
  * Common crypto utils, exposes methods to generate the parameters of password leak check requests
@@ -105,41 +99,6 @@ public abstract class CryptoHelper {
       // This stack trace is stripped to protect sensitive data
       throw new MessageStrippingException("Computing the password hash failed.", e);
     }
-  }
-
-  /**
-   * Canonicalizes a username by normalizing valid phone numbers in the national format. If a
-   * telephone number is not found then the original canonicalizeUsername path will be used.
-   */
-  public static String canonicalizeUsernameWithPhoneNumberSupport(String username) {
-    PhoneNumberUtil phoneNumberUtil = PhoneNumberUtil.getInstance();
-    RegionCode phoneNumberRegion = parsePhoneNumberRegion(username);
-    if (phoneNumberRegion != null) {
-      try {
-        PhoneNumber phoneNumber = phoneNumberUtil.parse(username, phoneNumberRegion);
-        return phoneNumberUtil.getNationalSignificantNumber(phoneNumber);
-      } catch (NumberParseException exception) {
-        // If there are any issues with parsing and normalizing the telephone number, fall through
-        // and use the original username canonicalization path.
-      }
-    }
-    return canonicalizeUsername(username);
-  }
-
-  /**
-   * Determine a RegionCode (if any) that considers the provided string as a valid telephone number.
-   * If the provided string is not consdiered a telephone number for any region, null is returned.
-   */
-  @Nullable
-  private static RegionCode parsePhoneNumberRegion(String username) {
-    PhoneNumberUtil phoneNumberUtil = PhoneNumberUtil.getInstance();
-    EnumSet<RegionCode> allPossibleRegionCodes = EnumSet.allOf(RegionCode.class);
-    for (RegionCode regionCode : allPossibleRegionCodes) {
-      if (phoneNumberUtil.isPossibleNumber(username, regionCode)) {
-        return regionCode;
-      }
-    }
-    return null;
   }
 
   /**
