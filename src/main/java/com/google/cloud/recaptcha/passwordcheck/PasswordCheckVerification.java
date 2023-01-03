@@ -139,9 +139,12 @@ public final class PasswordCheckVerification {
         () -> {
           final byte[] serverEncryptedUserCredentialsHash =
               cipher.decrypt(reEncryptedUserCredentialsHash);
+          final byte[] reHashedEncryptedUserCredentialsHash =
+              Hashing.sha256().hashBytes(serverEncryptedUserCredentialsHash).asBytes();
+
           final boolean credentialsLeaked =
               encryptedLeakMatchPrefixList.stream()
-                  .anyMatch(prefix -> isPrefixMatch(serverEncryptedUserCredentialsHash, prefix));
+                  .anyMatch(prefix -> isPrefixMatch(reHashedEncryptedUserCredentialsHash, prefix));
 
           return new PasswordCheckResult(this, this.username, credentialsLeaked);
         },
@@ -179,19 +182,17 @@ public final class PasswordCheckVerification {
 
   /**
    * Determines whether or not the given {@code prefix} matches with the {@code
-   * serverEncryptedUserCredentialsHash}.
+   * reHashedEncryptedUserCredentialsHash}.
    *
-   * @param serverEncryptedUserCredentialsHash the server-side encrypted user credentials hash
+   * @param reHashedEncryptedUserCredentialsHash the server-side encrypted user credentials hash
    * @param prefix single server-side generated prefix of encrypted potentially leaked credentials
-   * @return whether or not {@code prefix} is a prefix of {@code serverEncryptedUserCredentialsHash}
+   * @return whether or not {@code prefix} is a prefix of {@code
+   *     reHashedEncryptedUserCredentialsHash}
    */
-  private boolean isPrefixMatch(byte[] serverEncryptedUserCredentialsHash, byte[] prefix) {
-    if (prefix.length == 0 || prefix.length > serverEncryptedUserCredentialsHash.length) {
+  private boolean isPrefixMatch(byte[] reHashedEncryptedUserCredentialsHash, byte[] prefix) {
+    if (prefix.length == 0 || prefix.length > reHashedEncryptedUserCredentialsHash.length) {
       return false;
     }
-
-    byte[] reHashedEncryptedUserCredentialsHash =
-        Hashing.sha256().hashBytes(serverEncryptedUserCredentialsHash).asBytes();
 
     for (int i = 0; i < prefix.length; i++) {
       if (reHashedEncryptedUserCredentialsHash[i] != prefix[i]) {
