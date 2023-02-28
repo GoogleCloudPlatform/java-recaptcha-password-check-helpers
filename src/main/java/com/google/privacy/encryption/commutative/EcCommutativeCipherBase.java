@@ -46,6 +46,7 @@ import java.security.spec.InvalidKeySpecException;
 public abstract class EcCommutativeCipherBase {
   /** List of supported underlying hash types for the commutative cipher. */
   public enum HashType {
+    // TODO(b/270957748): Support SSWU_RO hash to curve functions.
     SHA256(256),
     SHA384(384),
     SHA512(512);
