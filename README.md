@@ -8,13 +8,23 @@ need to—decrypt them).
 
 ## Usage
 
+1.  Import [dependency](https://central.sonatype.com/artifact/com.google.cloud/recaptcha-password-check-helpers/1.0.1) in your `pom.xml`:
+
+    ```
+    <dependency>
+      <groupId>com.google.cloud</groupId>
+      <artifactId>recaptcha-password-check-helpers</artifactId>
+      <version>1.0.1</version>
+    </dependency>
+    ```
+
 1.  Create a verifier instance:
 
     ```java
     PasswordCheckVerifier passwordLeak = new PasswordCheckVerifier();
     ```
 
-2.  Create a verification with some user credentials and extract the parameters
+1.  Create a verification with some user credentials and extract the parameters
     generated
 
     ```java
@@ -24,10 +34,10 @@ need to—decrypt them).
     byte[] encryptedUserCredentialsHash = verification.getEncryptedUserCredentialsHash();
     ```
 
-3.  Next, use the parameters generated to include in your reCAPTCHA
+1.  Next, use the parameters generated to include in your reCAPTCHA
     [assessment request](https://cloud.google.com/recaptcha-enterprise/docs/create-assessment)
 
-4.  Then, extract the `reEncryptedUserCredentialsHash` and
+1.  Then, extract the `reEncryptedUserCredentialsHash` and
     `encryptedLeakMatchPrefixes` from the response of the assessment request and
     use them to verify them:
 
@@ -35,7 +45,7 @@ need to—decrypt them).
     PasswordCheckResult result = passwordLeak.verify(verification, reEncryptedUserCredentialsHash, encryptedLeakMatchPrefixes);
     ```
 
-5.  Finally, use the result to determine whether the user credentials are leaked
+1.  Finally, use the result to determine whether the user credentials are leaked
     or not:
 
     ```java
