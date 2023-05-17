@@ -54,7 +54,7 @@ public final class PasswordCheckVerification {
   private byte[] encryptedUserCredentialsHash;
   private byte[] lookupHashPrefix;
 
-  /** Creates a new {@link PasswordLeakVerification} instance with the given username. */
+  /** Creates a new {@link PasswordCheckVerification} instance with the given username. */
   private PasswordCheckVerification(String username) {
     this.cipher = EcCommutativeCipher.createWithNewKey(EC_CURVE);
     this.username = username;
@@ -99,10 +99,10 @@ public final class PasswordCheckVerification {
   }
 
   /**
-   * Factory method to initialize a {@link PasswordLeakVerification} asynchronously using the
+   * Factory method to initialize a {@link PasswordCheckVerification} asynchronously using the
    * provided executor service.
    *
-   * @return a {@link CompletableFuture} containing a {@link PasswordLeakVerification} instance on
+   * @return a {@link CompletableFuture} containing a {@link PasswordCheckVerification} instance on
    *     completion. Creation is asynchronous to prevent blocking the main thread with the
    *     underlying cryptographic functions required for initialization.
    */
@@ -152,7 +152,7 @@ public final class PasswordCheckVerification {
   }
 
   /**
-   * Returns a {@link Supplier} that creates a {@link PasswordLeakVerification} using the given
+   * Returns a {@link Supplier} that creates a {@link PasswordCheckVerification} using the given
    * username and password. Since the initialization is CPU intensive due to the cryptographic
    * functions required to create the lookup hash prefix and encrypted user credentials hash, no
    * constructor is exposed publicly; instead, the create method executes the supplied function

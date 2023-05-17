@@ -15,8 +15,8 @@ package com.google.cloud.recaptcha.passwordcheck;
 // limitations under the License.
 
 /**
- * Represents a password check result obtained after a {@link PasswordLeakVerification} is requested
- * to reCAPTCHA Enterprise.
+ * Represents a password check result obtained after a {@link PasswordCheckVerification} is
+ * requested to reCAPTCHA Enterprise.
  */
 public final class PasswordCheckResult {
 
@@ -36,8 +36,17 @@ public final class PasswordCheckResult {
     this.credentialsLeaked = credentialsLeaked;
   }
 
-  /** Returns the {@link PasswordLeakVerification} associated to this instance. */
+  /**
+   * Returns the {@link PasswordCheckVerification} associated to this instance.
+   *
+   * @deprecated Use {@link PasswordCheckResult#getPasswordCheckVerification} instead.
+   */
+  @Deprecated
   public PasswordCheckVerification getPasswordLeakVerification() {
+    return verification;
+  }
+
+  public PasswordCheckVerification getPasswordCheckVerification() {
     return verification;
   }
 

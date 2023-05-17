@@ -23,7 +23,7 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 /**
- * This class that exposes functionality to: 1) build a new {@link PasswordLeakVerification} which
+ * This class that exposes functionality to: 1) build a new {@link PasswordCheckVerification} which
  * holds the parameters for performing a request to <a
  * href="https://cloud.google.com/recaptcha-enterprise/docs/check-passwords">reCAPTCHA Enterprise
  * Password Leak Verification</a> and 2) parse the server response to determine if a
@@ -55,16 +55,16 @@ public final class PasswordCheckVerifier {
   }
 
   /**
-   * Creates a new {@link PasswordLeakVerification} instance. This is executed in a separate thread
+   * Creates a new {@link PasswordCheckVerification} instance. This is executed in a separate thread
    * to avoid blocking the main thread with the costly cryptographic functions that are executed
    * internally.
    *
-   * <p>The created {@link PasswordLeakVerification} must be kept to verify the response of the
+   * <p>The created {@link PasswordCheckVerification} must be kept to verify the response of the
    * server since a unique encryption key is generated internally for such validation.
    *
    * @param username the username to be checked for password leaks
    * @param password the password associated to the username to check if it has been leaked
-   * @return a {@link CompletableFuture} containing a {@link PasswordLeakVerification} on completion
+   * @return {@link CompletableFuture} containing a {@link PasswordCheckVerification} on completion
    */
   public CompletableFuture<PasswordCheckVerification> createVerification(
       String username, String password) {

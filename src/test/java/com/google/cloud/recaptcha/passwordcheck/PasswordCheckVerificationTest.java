@@ -101,7 +101,7 @@ public class PasswordCheckVerificationTest {
 
   // --- Utility methods --- //
 
-  /** Crates a new {@link PasswordLeakVerification} with fixed test parameters */
+  /** Crates a new {@link PasswordCheckVerification} with fixed test parameters */
   private PasswordCheckVerification createVerification()
       throws ExecutionException, InterruptedException {
     PasswordCheckVerifier passwordLeak = new PasswordCheckVerifier();
