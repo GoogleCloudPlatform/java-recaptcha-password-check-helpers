@@ -8,17 +8,24 @@ need to—decrypt them).
 
 ## Usage
 
-1.  Import [dependency](https://central.sonatype.com/artifact/com.google.cloud/recaptcha-password-check-helpers/1.0.1) in your `pom.xml`:
+1.  Import [dependency](https://central.sonatype.com/artifact/com.google.cloud/recaptcha-password-check-helpers/1.0.2) in your `pom.xml`:
 
     ```
     <dependency>
       <groupId>com.google.cloud</groupId>
       <artifactId>recaptcha-password-check-helpers</artifactId>
-      <version>1.0.1</version>
+      <version>1.0.2</version>
     </dependency>
     ```
 
 1.  Create a verifier instance:
+
+    NOTE: `PasswordCheckVerifier` uses an
+    [ExecutorService](https://docs.oracle.com/javase/8/docs/api/java/util/concurrent/ExecutorService.html)
+    to execute the cryptographic functions to generate the request parameters.
+    If no `ExecutorService` is passed when creating a new instance, the
+    constructor will create a new one, so you may want to keep a single instance
+    of `PasswordCheckVerifier` for all your password leak check requests.
 
     ```java
     PasswordCheckVerifier passwordLeak = new PasswordCheckVerifier();
