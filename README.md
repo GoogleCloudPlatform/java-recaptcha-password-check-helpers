@@ -20,12 +20,13 @@ need to—decrypt them).
 
 1.  Create a verifier instance:
 
-    NOTE: `PasswordCheckVerifier` uses an
-    [ExecutorService](https://docs.oracle.com/javase/8/docs/api/java/util/concurrent/ExecutorService.html)
-    to execute the cryptographic functions to generate the request parameters.
-    If no `ExecutorService` is passed when creating a new instance, the
-    constructor will create a new one, so you may want to keep a single instance
-    of `PasswordCheckVerifier` for all your password leak check requests.
+    > [!IMPORTANT]
+    > `PasswordCheckVerifier` uses an
+    > [ExecutorService](https://docs.oracle.com/javase/8/docs/api/java/util/concurrent/ExecutorService.html)
+    > to execute the cryptographic functions to generate the request parameters.
+    > If no `ExecutorService` is passed when creating a new instance, the
+    > constructor will create a new one, so you may want to keep a single instance
+    > of `PasswordCheckVerifier` for all your password leak check requests.
 
     ```java
     PasswordCheckVerifier passwordLeak = new PasswordCheckVerifier();
