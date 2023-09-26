@@ -2,7 +2,7 @@
 #include <memory>
 #include <string>
 
-#include "privacy/blinders/cpp/crypto/big_num.h"
+#include "privacy/blinders/cpp/portable/util/task/status.inc"
 #include "privacy/blinders/cpp/public/ec_commutative_cipher.h"
 #include "privacy/private_membership/jni/jni_util.h"
 #include "third_party/absl/status/status.h"
@@ -10,6 +10,7 @@
 #include "third_party/java/jdk/include/linux/jni_md.h"
 #include "third_party/openssl/nid.h"
 #include "util/java/jni_helper.h"
+#include "util/java/scoped_local_ref.h"
 
 #define JFUN(METHOD_NAME) \
   Java_com_google_privacy_blinders_encryption_commutative_EcCommutativeCipherNative_##METHOD_NAME  // NOLINT
@@ -54,8 +55,11 @@ JFUN(createWithNewKeyNative)(JNIEnv* env, jclass jni_class_ignored,
     hash_type = ECCommutativeCipher::HashType::SHA384;
   } else if (hash_type_name_str == "SHA512") {
     hash_type = ECCommutativeCipher::HashType::SHA512;
+  } else if (hash_type_name_str == "SSWU_RO") {
+    hash_type = ECCommutativeCipher::HashType::SSWU_RO;
   } else {
-    ThrowIllegalArgumentException(&jni_helper, "Invalid hash type");
+    ThrowIllegalArgumentException(&jni_helper, "Invalid hash type: %s",
+                                  hash_type_name_str);
     return 0;
   }
   ::blinders::StatusOr<std::unique_ptr<ECCommutativeCipher>> cipher =
@@ -92,8 +96,11 @@ extern "C" JNIEXPORT jlong JNICALL JFUN(createFromKeyNative)(
     hash_type = ECCommutativeCipher::HashType::SHA384;
   } else if (hash_type_name_str == "SHA512") {
     hash_type = ECCommutativeCipher::HashType::SHA512;
+  } else if (hash_type_name_str == "SSWU_RO") {
+    hash_type = ECCommutativeCipher::HashType::SSWU_RO;
   } else {
-    ThrowIllegalArgumentException(&jni_helper, "Invalid hash type");
+    ThrowIllegalArgumentException(&jni_helper, "Invalid hash type: %s",
+                                  hash_type_name_str);
     return 0;
   }
   std::string key_bytes_str = jni_helper.ByteArrayToString(key_bytes);
