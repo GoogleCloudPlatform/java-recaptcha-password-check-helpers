@@ -130,6 +130,11 @@ public abstract class CryptoHelper {
     return Hashing.sha256().hashBytes(blindedHash).asBytes();
   }
 
+  /** Uses the given {@code cipher} to encrypt a hash. */
+  public static byte[] encryptLookupHash(EcCommutativeCipher cipher, byte[] lookupHash) {
+    return cipher.encrypt(lookupHash);
+  }
+
   /**
    * Uses the given {@code cipher} to encrypt a hash of the {@code canonicalizedUsername} and {@code
    * password}.
