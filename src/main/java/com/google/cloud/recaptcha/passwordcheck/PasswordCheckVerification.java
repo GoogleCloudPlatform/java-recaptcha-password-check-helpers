@@ -13,7 +13,6 @@ package com.google.cloud.recaptcha.passwordcheck;
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
-
 import com.google.common.hash.Hashing;
 import com.google.cloud.recaptcha.passwordcheck.utils.BCScryptGenerator;
 import com.google.cloud.recaptcha.passwordcheck.utils.CryptoHelper;
@@ -21,6 +20,8 @@ import com.google.cloud.recaptcha.passwordcheck.utils.ScryptGenerator;
 import com.google.cloud.recaptcha.passwordcheck.utils.SensitiveString;
 import com.google.privacy.encryption.commutative.EcCommutativeCipher;
 import com.google.privacy.encryption.commutative.SupportedCurve;
+
+import java.util.Base64;
 import java.util.Collection;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutorService;
@@ -168,11 +169,11 @@ public final class PasswordCheckVerification {
     return () -> {
       PasswordCheckVerification verification = new PasswordCheckVerification(username);
       String canonicalizedUsername = CryptoHelper.canonicalizeUsername(username);
+      String hashedPass = password.getValue();
+      byte[] hashedPassBytes = Base64.getDecoder().decode(hashedPass);
 
       verification.encryptedUserCredentialsHash =
-          verification.cipher.encrypt(
-              CryptoHelper.hashUsernamePasswordPair(
-                  canonicalizedUsername, password, SCRYPT_GENERATOR));
+          verification.cipher.encrypt(hashedPassBytes);
       verification.lookupHashPrefix =
           CryptoHelper.bucketizeUsername(canonicalizedUsername, USERNAME_HASH_PREFIX_LENGTH);
 

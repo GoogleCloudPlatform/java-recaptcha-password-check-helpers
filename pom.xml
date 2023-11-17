@@ -4,7 +4,7 @@
     xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
 
-  <groupId>com.google.cloud</groupId>
+  <groupId>security.savvy</groupId>
   <artifactId>recaptcha-password-check-helpers</artifactId>
   <version>1.0.2</version>
   <name>reCAPTCHA Password Check Helpers</name>
@@ -99,19 +99,14 @@
     </dependency>
   </dependencies>
 
-  <!-- Deployment to public servers -->
-  <distributionManagement>
-    <repository>
-      <id>sonatype-nexus-staging</id>
-      <name>Sonatype Nexus Staging</name>
-      <url>https://oss.sonatype.org/service/local/staging/deploy/maven2</url>
-    </repository>
-    <snapshotRepository>
-      <id>sonatype-nexus-snapshots</id>
-      <name>Sonatype Nexus Snapshots</name>
-      <url>https://oss.sonatype.org/content/repositories/snapshots</url>
-    </snapshotRepository>
-  </distributionManagement>
+  <!-- Deployment to github -->
+<distributionManagement>
+   <repository>
+     <id>github</id>
+     <name>GitHub Savvy Apache Maven Packages</name>
+     <url>https://maven.pkg.github.com/unbiased-security/java-recaptcha-password-check-helpers</url>
+   </repository>
+</distributionManagement>
 
   <build>
     <pluginManagement>
@@ -141,7 +136,7 @@
 
   <profiles>
     <profile>
-      <id>sonatype-oss-release</id>
+      <id>github-maven-release</id>
       <build>
         <plugins>
           <plugin>

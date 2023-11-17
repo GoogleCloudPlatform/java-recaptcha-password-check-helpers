@@ -39,6 +39,7 @@ public class PasswordCheckVerificationTest {
 
   private static final ScryptGenerator SCRYPT_GENERATOR = new BCScryptGenerator();
   private static final String TEST_USERNAME = "foo";
+  private static final String TEST_HASHED_PASSWORD = "fP+qMmhxVsSByYclP5b1hVzpnQZDQkGj1NCL9eEr70Q=";
   private static final String TEST_PASSWORD = "bar";
   private static final Credentials[] TEST_MATCHING_USERNAME_LIST = {
     new Credentials(TEST_USERNAME, TEST_PASSWORD), new Credentials("baz", "pass")
@@ -106,7 +107,7 @@ public class PasswordCheckVerificationTest {
       throws ExecutionException, InterruptedException {
     PasswordCheckVerifier passwordLeak = new PasswordCheckVerifier();
 
-    return passwordLeak.createVerification(TEST_USERNAME, TEST_PASSWORD).get();
+    return passwordLeak.createVerification(TEST_USERNAME, TEST_HASHED_PASSWORD).get();
   }
 
   /** Wrapper class to hold the data necessary to simulate a server response */
