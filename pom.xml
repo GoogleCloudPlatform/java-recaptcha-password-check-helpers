@@ -145,7 +145,7 @@
         <configuration>
           <serverId>sonatype-nexus-staging</serverId>
           <nexusUrl>https://google.oss.sonatype.org/</nexusUrl>
-          <autoReleaseAfterClose>false</autoReleaseAfterClose>
+          <autoReleaseAfterClose>true</autoReleaseAfterClose>
         </configuration>
       </plugin>
     </plugins>
