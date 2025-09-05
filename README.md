@@ -36,7 +36,7 @@ need to—decrypt them).
     generated
 
     ```java
-    PasswordCheckVerification verification = passwordLeak.createPasswordCheckVerification(username, password).get();
+    PasswordCheckVerification verification = passwordLeak.createVerification(username, password).get();
 
     byte[] lookupHashPrefix = verification.getLookupHashPrefix();
     byte[] encryptedUserCredentialsHash = verification.getEncryptedUserCredentialsHash();
