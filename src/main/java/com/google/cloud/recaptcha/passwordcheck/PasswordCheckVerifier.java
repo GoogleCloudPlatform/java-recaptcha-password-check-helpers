@@ -38,7 +38,7 @@ public final class PasswordCheckVerifier {
   private final ExecutorService executorService;
 
   /**
-   * Creates a new {@link PasswordLeakVerifier} instance.
+   * Creates a new {@link PasswordCheckVerifier} instance.
    *
    * @param executorService used to execute costly cryptographic functions in separate threads
    */
@@ -47,7 +47,7 @@ public final class PasswordCheckVerifier {
   }
 
   /**
-   * Creates a new {@link PasswordLeakVerifier} instance. Cryptographic functions are executed in
+   * Creates a new {@link PasswordCheckVerifier} instance. Cryptographic functions are executed in
    * separate threads through an internal ExecutorService.
    */
   public PasswordCheckVerifier() {
@@ -79,8 +79,8 @@ public final class PasswordCheckVerifier {
   }
 
   /**
-   * Parses the result of a reCAPTCHA Password Leak Verification request and responds with a {@link
-   * CompletableFuture} containing a {@link PasswordLeakResult} on completion.
+   * Parses the result of a reCAPTCHA Password Check Verification request and responds with a {@link
+   * CompletableFuture} containing a {@link PasswordCheckResult} on completion.
    *
    * <p>This verification is executed in a separate thread to avoid blocking the main thread with
    * the underlying cryptographic functions executed.
@@ -93,7 +93,7 @@ public final class PasswordCheckVerifier {
    *     client key to validate if there is a password leak.
    * @param encryptedLeakMatchPrefixList list of server-side encrypted possible leaks found. To be
    *     verified using the decryption of {@code reEncryptedLookupHash}
-   * @return a {@link CompletableFuture} containing the result of the password leak verification
+   * @return a {@link CompletableFuture} containing the result of the password check verification
    */
   public CompletableFuture<PasswordCheckResult> verify(
       PasswordCheckVerification verification,

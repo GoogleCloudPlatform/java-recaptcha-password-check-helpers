@@ -27,10 +27,21 @@ public final class SensitiveString {
     this.value = value;
   }
 
+  /**
+   * Returns a {@link SensitiveString} from the given {@link String}.
+   *
+   * @param value the {@link String} to wrap
+   * @return a {@link SensitiveString}
+   */
   public static SensitiveString of(String value) {
     return new SensitiveString(value);
   }
 
+  /**
+   * Returns the value of the {@link SensitiveString}.
+   *
+   * @return the value of the {@link SensitiveString}
+   */
   public String getValue() {
     return value;
   }
@@ -40,6 +51,11 @@ public final class SensitiveString {
     return "[REDACTED SENSITIVE STRING]";
   }
 
+  /**
+   * Returns whether the {@link SensitiveString} is empty.
+   *
+   * @return whether the {@link SensitiveString} is empty
+   */
   public final boolean isEmpty() {
     try {
       return getValue().isEmpty();

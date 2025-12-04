@@ -26,7 +26,10 @@ public final class MessageStrippingException extends RuntimeException {
 
   /**
    * Creates a new {@code MessageStrippingException} that encapsulates a {@link Throwable} that
-   * could potentially contain sensistive data and strips its content.
+   * could potentially contain sensitive data and strips its content.
+   *
+   * @param message the message to include in the exception
+   * @param cause the cause of the exception
    */
   public MessageStrippingException(String message, Throwable cause) {
     super(message + "\nOriginal stack trace:\n" + extractOriginalStackTrace(cause));

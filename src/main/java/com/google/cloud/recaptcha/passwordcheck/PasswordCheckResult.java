@@ -39,6 +39,7 @@ public final class PasswordCheckResult {
   /**
    * Returns the {@link PasswordCheckVerification} associated to this instance.
    *
+   * @return the {@link PasswordCheckVerification} associated to this instance
    * @deprecated Use {@link PasswordCheckResult#getPasswordCheckVerification} instead.
    */
   @Deprecated
@@ -46,16 +47,29 @@ public final class PasswordCheckResult {
     return verification;
   }
 
+  /**
+   * Returns the {@link PasswordCheckVerification} associated to this instance.
+   *
+   * @return the {@link PasswordCheckVerification} associated to this instance
+   */
   public PasswordCheckVerification getPasswordCheckVerification() {
     return verification;
   }
 
-  /** Returns the username associated to this instance. */
+  /**
+   * Returns the username associated to this instance.
+   *
+   * @return the username associated to this instance
+   */
   public String getUsername() {
     return username;
   }
 
-  /** Returns whether or not credentials were leaked in the associated verification. */
+  /**
+   * Returns whether or not credentials were leaked in the associated verification.
+   *
+   * @return whether or not credentials were leaked in the associated verification
+   */
   public boolean areCredentialsLeaked() {
     return credentialsLeaked;
   }

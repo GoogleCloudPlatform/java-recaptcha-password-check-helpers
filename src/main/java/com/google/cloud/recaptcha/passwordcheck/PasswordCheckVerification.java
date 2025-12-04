@@ -88,6 +88,8 @@ public final class PasswordCheckVerification {
   /**
    * Returns a prefix of the username hash provided for this verification. The hash prefix is
    * calculated using {@link CryptoHelper#bucketizeUsername(String, int)}}.
+   *
+   * @return byte array of the username hash prefix for this verification
    */
   public byte[] getLookupHashPrefix() {
     return lookupHashPrefix;
