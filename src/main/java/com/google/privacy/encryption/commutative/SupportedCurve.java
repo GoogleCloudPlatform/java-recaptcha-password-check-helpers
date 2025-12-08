@@ -45,16 +45,29 @@ public enum SupportedCurve {
     }
   }
 
-  /** Returns the generated parameter specs. */
+  /**
+   * Returns the generated parameter specs.
+   *
+   * @return the generated parameter specs for the curve
+   */
   public ECGenParameterSpec getGenParameterSpec() {
     return genParameterSpec;
   }
 
-  /** Returns the parameter specs. */
+  /**
+   * Returns the parameter specs.
+   *
+   * @return the parameter specs for the curve
+   */
   public ECParameterSpec getParameterSpec() {
     return parameterSpec;
   }
 
+  /**
+   * Returns the curve name.
+   *
+   * @return the curve name for the curve
+   */
   public String getCurveName() {
     return curveName;
   }

@@ -47,8 +47,11 @@ public abstract class EcCommutativeCipherBase {
   /** List of supported underlying hash types for the commutative cipher. */
   public enum HashType {
     // TODO(b/270957748): Support SSWU_RO hash to curve functions.
+    /* Secure Hash Algorithm 256 */
     SHA256(256),
+    /* Secure Hash Algorithm 384 */
     SHA384(384),
+    /* Secure Hash Algorithm 512 */
     SHA512(512);
 
     private final int hashBitLength;
@@ -57,29 +60,48 @@ public abstract class EcCommutativeCipherBase {
       this.hashBitLength = hashBitLength;
     }
 
-    /** Returns the bit length. */
+    /**
+     * Returns the bit length.
+     *
+     * @return the bit length of the hash function.
+     */
     public int getHashBitLength() {
       return hashBitLength;
     }
   }
 
-  // EC classes are conceptually immutable even though the class is not annotated accordingly.
+  /* EC classes are conceptually immutable even though the class is not annotated accordingly. */
   @SuppressWarnings("Immutable")
   protected final ECPrivateKey privateKey;
 
+  /* Curve used for the commutative cipher. */
   @SuppressWarnings("Immutable")
   protected final SupportedCurve ecCurve;
 
+  /* Hash type is the underlying hash type to use for the commutative cipher. */
   protected final HashType hashType;
 
-  /** Creates an EcCommutativeCipherBase object with the given private key and curve. */
+  /**
+   * Creates an EcCommutativeCipherBase object with the given private key and curve.
+   *
+   * @param hashType the underlying hash type to use for the commutative cipher
+   * @param key the private key to use for the commutative cipher
+   * @param ecCurve the curve to use for the commutative cipher
+   */
   protected EcCommutativeCipherBase(HashType hashType, ECPrivateKey key, SupportedCurve ecCurve) {
     this.privateKey = key;
     this.ecCurve = ecCurve;
     this.hashType = hashType;
   }
 
-  /** Decodes the private key from BigInteger. */
+  /**
+   * Decodes the private key from BigInteger.
+   *
+   * @param key the private key in BigInteger.
+   * @param curve the curve to use for the private key
+   * @return the decoded private key
+   * @throws InvalidKeySpecException if the key is not a valid private key
+   */
   protected static ECPrivateKey decodePrivateKey(BigInteger key, SupportedCurve curve)
       throws InvalidKeySpecException {
     checkPrivateKey(key, curve.getParameterSpec());
@@ -92,7 +114,12 @@ public abstract class EcCommutativeCipherBase {
     }
   }
 
-  /** Creates a new random private key. */
+  /**
+   * Creates a new random private key.
+   *
+   * @param curve the curve to use to generate the private key
+   * @return the generated private key
+   */
   protected static ECPrivateKey createPrivateKey(SupportedCurve curve) {
     try {
       KeyPairGenerator generator = KeyPairGenerator.getInstance("EC");
@@ -140,13 +167,14 @@ public abstract class EcCommutativeCipherBase {
    * implementations must match the C++ version:
    *
    * <p>The resulting point is returned encoded in compressed form as defined in ANSI X9.62 ECDSA.
+   *
+   * @param byteId bytes to hash to the curve
+   * @return an encoded point in compressed form as defined in ANSI X9.62 ECDSA
    */
   public abstract byte[] hashIntoTheCurve(byte[] byteId);
 
   /**
    * A random oracle function mapping x deterministically into a large domain.
-   *
-   * <p>
    *
    * <p>The random oracle is similar to the example given in the last paragraph of Chapter 6 of [1]
    * where the output is expanded by successively hashing the concatenation of the input with a
@@ -166,6 +194,11 @@ public abstract class EcCommutativeCipherBase {
    *
    * <p>The output length is increased by a security value of 256 which reduces the bias of
    * selecting certain values more often than others when max_value is not a multiple of 2.
+   *
+   * @param bytes the input bytes to the random oracle
+   * @param maxValue the maximum value of the output
+   * @param hashType the hash type to use for the random oracle
+   * @return a random value from the set [0, max_value)
    */
   public static BigInteger randomOracle(byte[] bytes, BigInteger maxValue, HashType hashType) {
     int hashBitLength = hashType.getHashBitLength();
@@ -215,6 +248,9 @@ public abstract class EcCommutativeCipherBase {
    * This function converts a BigInteger into a byte array in big-endian form without two's
    * complement representation. This function is compatible with C++ OpenSSL's BigNum
    * implementation.
+   *
+   * @param value the BigInteger value to convert to a byte array
+   * @return the byte array in big-endian form without two's complement representation
    */
   public static byte[] bigIntegerToByteArrayCppCompatible(BigInteger value) {
     byte[] signedArray = value.toByteArray();
@@ -231,6 +267,9 @@ public abstract class EcCommutativeCipherBase {
    * This function converts bytes to BigInteger. The input bytes are assumed to be in big-endian
    * form. The function converts the bytes into two's complement big-endian form before converting
    * into a BigInteger. This function matches the C++ OpenSSL implementation of bytes to BigNum.
+   *
+   * @param bytes the byte array to convert to BigInteger
+   * @return the BigInteger representation of the bytes
    */
   public static BigInteger byteArrayToBigIntegerCppCompatible(byte[] bytes) {
     byte[] twosComplement = new byte[bytes.length + 1];

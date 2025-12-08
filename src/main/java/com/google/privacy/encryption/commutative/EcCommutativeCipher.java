@@ -71,6 +71,10 @@ public final class EcCommutativeCipher extends EcCommutativeCipherBase {
    * Use this method when the key is created for the first time or it needs to be refreshed.
    *
    * <p>New users should use SHA256 as the underlying hash function.
+   *
+   * @param curve the curve to use for the commutative cipher
+   * @param hashType the underlying hash type to use for the commutative cipher
+   * @return an EcCommutativeCipher object with a new random private key based on the {@code curve}
    */
   public static EcCommutativeCipher createWithNewKey(SupportedCurve curve, HashType hashType) {
     return new EcCommutativeCipher(hashType, createPrivateKey(curve), curve);
@@ -81,6 +85,9 @@ public final class EcCommutativeCipher extends EcCommutativeCipherBase {
    * Use this method when the key is created for the first time or it needs to be refreshed.
    *
    * <p>The underlying hash type will be SHA256.
+   *
+   * @param curve the curve to use for the commutative cipher
+   * @return an EcCommutativeCipher object with a new random private key based on the {@code curve}
    */
   public static EcCommutativeCipher createWithNewKey(SupportedCurve curve) {
     return createWithNewKey(curve, HashType.SHA256);
@@ -94,6 +101,9 @@ public final class EcCommutativeCipher extends EcCommutativeCipherBase {
    *
    * <p>New users should use SHA256 as the underying hash function.
    *
+   * @param curve the curve to use for the commutative cipher
+   * @param hashType the underlying hash type to use for the commutative cipher
+   * @param keyBytes the key to use for the commutative cipher
    * @throws IllegalArgumentException if the key encoding is invalid.
    */
   public static EcCommutativeCipher createFromKey(
@@ -114,6 +124,8 @@ public final class EcCommutativeCipher extends EcCommutativeCipherBase {
    *
    * <p>The underlying hash type will be SHA256.
    *
+   * @param curve the curve to use for the commutative cipher
+   * @param keyBytes the key bytes to use for the commutative cipher
    * @throws IllegalArgumentException if the key encoding is invalid.
    */
   public static EcCommutativeCipher createFromKey(SupportedCurve curve, byte[] keyBytes) {
@@ -123,7 +135,8 @@ public final class EcCommutativeCipher extends EcCommutativeCipherBase {
   /**
    * Checks if a ciphertext (compressed encoded point) is on the elliptic curve.
    *
-   * @param ciphertext the ciphertext that needs verification if it's on the curve.
+   * @param ciphertext the ciphertext that needs verification if it's on the curve
+   * @param supportedCurve the curve to be used for validation
    * @return true if the point is valid and non-infinite
    */
   public static boolean validateCiphertext(byte[] ciphertext, SupportedCurve supportedCurve) {
