@@ -20,7 +20,17 @@ import com.google.errorprone.annotations.Immutable;
 @Immutable
 public interface ScryptGenerator {
 
-  /** Calculates a Scrypt hash given a plain text and extra parameters. */
+  /**
+   * Calculates a Scrypt hash given a plain text and extra parameters.
+   *
+   * @param password the plain text password to hash
+   * @param salt the salt to use for the hash
+   * @param cpuMemCost the CPU memory cost of the hash
+   * @param blockSize the block size of the hash
+   * @param parallelization the parallelization of the hash
+   * @param desiredKeyLength the desired key length of the hash
+   * @return the Scrypt hash of the plain text password
+   */
   byte[] generate(
       byte[] password,
       byte[] salt,

@@ -63,6 +63,9 @@ public abstract class CryptoHelper {
    * <p>NOTE: the username hash is not safe against offline attacks, but that's acceptable since the
    * client only exposes a limited number of bits about it. The server itself never returns a
    * username hash.
+   *
+   * @param canonicalizedUsername pre-canonicalized username
+   * @return the username hash
    */
   public static byte[] hashUsername(String canonicalizedUsername) {
     return Hashing.sha256()
@@ -82,6 +85,11 @@ public abstract class CryptoHelper {
    * <p>PERFORMANCE: this is a very resource-intensive operation, since the hashing algorithm used
    * is very time and memory complex. If multiple hashes are done, this should be executed outside
    * of the request thread.
+   *
+   * @param canonicalizedUsername pre-canonicalized username
+   * @param password the password to hash
+   * @param scryptGenerator the scrypt generator to use for hashing
+   * @return the username-password pair hash
    */
   public static byte[] hashUsernamePasswordPair(
       String canonicalizedUsername, SensitiveString password, ScryptGenerator scryptGenerator) {
@@ -104,6 +112,9 @@ public abstract class CryptoHelper {
   /**
    * Canonicalizes a username by lower-casing ASCII characters, stripping a mail-address host in
    * case the username is a mail address, and stripping dots.
+   *
+   * @param username the username to canonicalize
+   * @return the canonicalized username
    */
   public static String canonicalizeUsername(String username) {
     EmailAddress emailAddress = new EmailAddress(username);
@@ -119,18 +130,32 @@ public abstract class CryptoHelper {
    *
    * <p>Convenience method that wraps {@link #canonicalizeUsername(String)} and {@link
    * #hashUsername(String)} and returns the result as a byte[].
+   *
+   * @param username the username to canonicalize and hash
+   * @return the canonicalized and hashed username
    */
   public static byte[] canonicalizeAndHashUsername(String username) {
     String canonicalizeUsername = canonicalizeUsername(username);
     return hashUsername(canonicalizeUsername);
   }
 
-  /** Hash the encrypted username password pair to achieve uniform distribution. */
+  /**
+   * Hash the encrypted username password pair to achieve uniform distribution.
+   *
+   * @param blindedHash the encrypted username password pair to hash
+   * @return the hashed encrypted username password pair
+   */
   public static byte[] hashBlindedHash(byte[] blindedHash) {
     return Hashing.sha256().hashBytes(blindedHash).asBytes();
   }
 
-  /** Uses the given {@code cipher} to encrypt a hash. */
+  /**
+   * Uses the given {@code cipher} to encrypt a hash.
+   *
+   * @param cipher the cipher to use for encryption
+   * @param lookupHash the lookup hash to encrypt
+   * @return the encrypted hash
+   */
   public static byte[] encryptLookupHash(EcCommutativeCipher cipher, byte[] lookupHash) {
     return cipher.encrypt(lookupHash);
   }
@@ -138,6 +163,12 @@ public abstract class CryptoHelper {
   /**
    * Uses the given {@code cipher} to encrypt a hash of the {@code canonicalizedUsername} and {@code
    * password}.
+   *
+   * @param canonicalizedUsername pre-canonicalized username
+   * @param password the password to hash and encrypt
+   * @param cipher the cipher to use for encryption
+   * @param scryptGenerator the scrypt generator to use for hashing
+   * @return the encrypted hash
    */
   public static byte[] computeEncryptedLookupHash(
       String canonicalizedUsername,
@@ -152,6 +183,10 @@ public abstract class CryptoHelper {
    * Reverse the client-side encryption of the lookup hash and then hash the result. This hashing is
    * necessary for equal distribution of the database. The server does this for all returned leak
    * matches. Hence the client has to do the same.
+   *
+   * @param reencryptedLookupHash the re-encrypted lookup hash to decrypt and hash
+   * @param cipher the cipher to use for decryption
+   * @return the decrypted and hashed lookup hash
    */
   public static byte[] decryptReencryptedLookupHash(
       byte[] reencryptedLookupHash, EcCommutativeCipher cipher) {
@@ -161,6 +196,10 @@ public abstract class CryptoHelper {
   /**
    * Returns a byte array containing the prefix of the hashed {@code canonicalizedUsername} with the
    * given length.
+   *
+   * @param canonicalizedUsername pre-canonicalized username
+   * @param allowedUsernameHashPrefixLength the length of the prefix
+   * @return the bucketized username hash
    */
   public static byte[] bucketizeUsername(
       String canonicalizedUsername, int allowedUsernameHashPrefixLength) {

@@ -27,7 +27,11 @@ public abstract class BitPrefix {
   /** Internal {@link BigInteger} representation of the prefix. */
   abstract BigInteger bigInteger();
 
-  /** Returns the prefix length. */
+  /**
+   * Returns the prefix length.
+   *
+   * @return the prefix length
+   */
   public abstract int length();
 
   /**
@@ -41,6 +45,11 @@ public abstract class BitPrefix {
    * <ul>
    *   <li>fullBytes: {0b00010001, 0b10101010}, prefixLength: 12 => 0b000100011010
    *   <li>fullBytes: {0b00010001}, prefixLength: 8 => 0b00010001
+   * </ul>
+   *
+   * @param fullBytes the full bytes to take the prefix of
+   * @param prefixLength the length of the prefix in bits
+   * @return the {@code BitPrefix} of the full bytes
    */
   public static BitPrefix of(byte[] fullBytes, int prefixLength) {
     Preconditions.checkArgument(fullBytes.length * Byte.SIZE >= prefixLength);
@@ -58,6 +67,10 @@ public abstract class BitPrefix {
    * <ul>
    *   <li>this: 0b1010101010, prefixLength: 8 => 0b10101010
    *   <li>this: 0b10101, prefixLength: 0 => Empty prefix
+   * </ul>
+   *
+   * @param prefixLength the length of the prefix in bits
+   * @return the truncated {@code BitPrefix}
    */
   public BitPrefix truncate(int prefixLength) {
     Preconditions.checkArgument(length() >= prefixLength);
@@ -74,6 +87,11 @@ public abstract class BitPrefix {
    *   <li>prefix: 0b1010, lengthInBytes: 2, fillBit: false => {0b10100000, 0b00000000}
    *   <li>prefix: 0b1010, lengthInBytes: 2, fillBit: true => {0b10101111, 0b11111111}
    *   <li>prefix: 0b1010, lengthInBytes: 2, fillBit: true => {0b10101111, 0b11111111}
+   * </ul>
+   *
+   * @param prefixLength the length of the prefix in bits
+   * @param fillBit whether to fill the trailing bits with 1s
+   * @return the expanded {@code BitPrefix}
    */
   public BitPrefix expand(int prefixLength, boolean fillBit) {
     Preconditions.checkArgument(prefixLength >= length());
@@ -101,6 +119,9 @@ public abstract class BitPrefix {
    * <ul>
    *   <li>this: 0b0101 => {0b01010000}
    *   <li>this: 0b01010101 => {0b01010101}
+   * </ul>
+   *
+   * @return the prefix as a byte array
    */
   public byte[] toByteArray() {
     return toByteArray(false);
@@ -117,6 +138,10 @@ public abstract class BitPrefix {
    *   <li>this: 0b0101, fillBit: false => {0b01010000}
    *   <li>this: 0b0101, fillBit: true => {0b01011111}
    *   <li>this: 0b01010101, fillBit: true/false => {0b01010101}
+   * </ul>
+   *
+   * @param fillBit whether to fill the trailing bits with 1s
+   * @return the prefix as a byte array
    */
   public byte[] toByteArray(boolean fillBit) {
     return toByteArray((length() + Byte.SIZE - 1) / Byte.SIZE, fillBit);
@@ -134,6 +159,11 @@ public abstract class BitPrefix {
    *   <li>this: 0b0101, arrayLength: 1, fillBit: true => {0b01011111}
    *   <li>this: 0b0101, arrayLength: 2, fillBit: true => {0b01011111, 0b11111111}
    *   <li>this: 0b01010101, arrayLength: 1, fillBit: true/false => {0b01010101}
+   * </ul>
+   *
+   * @param arrayLength the length of the array
+   * @param fillBit whether to fill the trailing bits with 1s
+   * @return the prefix as a byte array
    */
   public byte[] toByteArray(int arrayLength, boolean fillBit) {
     Preconditions.checkArgument(
