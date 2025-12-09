@@ -20,7 +20,7 @@ need to—decrypt them).
 
 1.  Create a verifier instance:
 
-    > [!IMPORTANT]
+    > **IMPORTANT**
     > `PasswordCheckVerifier` uses an
     > [ExecutorService](https://docs.oracle.com/javase/8/docs/api/java/util/concurrent/ExecutorService.html)
     > to execute the cryptographic functions to generate the request parameters.
