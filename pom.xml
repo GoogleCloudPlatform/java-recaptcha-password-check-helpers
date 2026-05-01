@@ -6,7 +6,7 @@
 
   <groupId>com.google.cloud</groupId>
   <artifactId>recaptcha-password-check-helpers</artifactId>
-  <version>1.0.8-SNAPSHOT</version>
+  <version>1.0.9-SNAPSHOT</version>
   <name>reCAPTCHA Password Check Helpers</name>
   <description>
     Helper library to use reCAPTCHA's password leak checkup service.
@@ -62,7 +62,7 @@
     <dependency>
       <groupId>org.bouncycastle</groupId>
       <artifactId>bcprov-jdk18on</artifactId>
-      <version>1.78</version>
+      <version>1.84</version>
     </dependency>
 
     <!-- https://mvnrepository.com/artifact/com.google.auto.value/auto-value -->
