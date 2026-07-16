@@ -1,1 +1,0 @@
-External contributions are not accepted at the moment, sorry!
