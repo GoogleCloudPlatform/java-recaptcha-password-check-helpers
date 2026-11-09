@@ -25,7 +25,7 @@ final class EmailAddress {
     this.emailAddress = emailAddress;
 
     if (isValid()) {
-      this.username = emailAddress.substring(0, emailAddress.indexOf('@'));
+      this.username = emailAddress.substring(0, emailAddress.lastIndexOf('@'));
     } else {
       this.username = emailAddress;
     }
